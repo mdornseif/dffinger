@@ -1,3 +1,13 @@
+2000-05-04  Doobee. R. Tzeck  <drt@ailis.de>
+
+	* dffingerd.c: Build fixes, fix at handling \W
+
+	* dffingerd-data.c: Build fixes
+
+	* dffingerd-conf.c: Build fixes
+
+	* Makefile: Build fixes
+
 2000-04-28  Doobee. R. Tzeck  <drt@ailis.de>
 
 	* This is version 0.2 beeing audited by fefe, if no Problems arise
