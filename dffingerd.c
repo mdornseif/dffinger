@@ -1,13 +1,17 @@
-/* $Id: dffingerd.c,v 1.6 2000/05/04 07:54:08 drt Exp $
+/* $Id: dffingerd.c,v 1.7 2000/05/04 10:03:15 drt Exp $
  *  --drt@ailis.de
  *
  * a finger daemon for use with tcpserver
  *
- * You might find more Info at http://rc23.cx/
+ * You might find more Info at http://rc23.cx/dffingerd.html
  * 
  * I do not belive there is a thing like copyright.
  *
  * $Log: dffingerd.c,v $
+ * Revision 1.7  2000/05/04 10:03:15  drt
+ * Agrr, don't drink and code.
+ * Fixed a really stupid Bug regarding \r\n
+ *
  * Revision 1.6  2000/05/04 07:54:08  drt
  * * dffingerd.c: Build fixes, fix at handling \W
  *
@@ -53,7 +57,7 @@
 #include "timeoutread.h"
 #include "timeoutwrite.h"
 
-static char rcsid[] = "$Id: dffingerd.c,v 1.6 2000/05/04 07:54:08 drt Exp $";
+static char rcsid[] = "$Id: dffingerd.c,v 1.7 2000/05/04 10:03:15 drt Exp $";
 
 #define stderr 2
 #define stdout 1
@@ -132,8 +136,21 @@ int main()
   /* Handle RfC 1288 stuff */
   qptr=query;
   if (*qptr==' ') qptr++;
-  if (*qptr=='/' && (*(qptr+1)=='W' || *(qptr+1)=='w') && *(qptr+2) == ' ') qptr+=3;
+  if (*qptr=='/' 
+      && (*(qptr+1)=='W' || *(qptr+1)=='w') 
+      && *(qptr+2) == ' ') 
+    qptr+=3;
   
+  /* \0-terminate query at the first \r or \n */
+  for (len = 0; query[len]; len++) 
+    {
+      if (query[len] == '\r' || query[len] == '\n') 
+	{
+	  query[len] = '\0';
+	  break;
+	}
+    }          
+
   /* clean up query string a bit by removing chars witch could 
      clobber logging or so and replace them with _ -> extra Paranoia */
   for(qptr2 = clean_query; *qptr; qptr++)
@@ -174,16 +191,6 @@ int main()
 	  strerr_die2sys(111, FATAL, "can't open data.cdb");
 	}      
       cdb_init(&c, fd);
-
-      /* \0-terminate query at the first \r or \n */
-      for (len = 0; query[len]; len++) 
-	{
-	  if (query[len] == '\r' || query[len] == '\n') 
-	    {
-	      query[len] = '\0';
-	      break;
-	    }
-	}          
   
       /* Search query for "user" on the database */
       r = cdb_find(&c, clean_query, str_len(clean_query)); 
