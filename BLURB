@@ -2,21 +2,21 @@ ddfingerd is designed to run chroot()ed under a nonroot uid. It reads
 all its data from a cdb which will be created by dffingerd-conf.  It
 does its interfacing to the network via tcpserver/ucspi-tcp and is logs
 to stderr. dffingerd is designed to run supervised by daemontools and
-feed its output to multilog. 
+feed its output to multilog, but can be used even with plain inetd.
 
 I have tried to build as much paranoia in it as possible. Running
 chrooted dffingerd has only the ability to read its data from a single
 file, data.cdb.
 
 By using a cdb dffingerd scales very well. It can handle tens of
-thousands of different users without degenerating preformance.
+thousands different users without degenerating preformance.
 
 dffingerd-data creates the cdb for dffingerd by reading files from a
 specific directory. You can copy your users .plan files there or
 chreate files for publishing other information. To make information
 available under bizarreuser@hostname you don't have to create an user
 bizarreuser on your machine; yust stuff the information you want to
-serfe in a file called bizarreuser.
+serve in a file called bizarreuser.
 
 dffingerd-conf sets up dffingerd for use with daemontools.
 
