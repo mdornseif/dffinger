@@ -2,13 +2,16 @@
  *
  * a finger daemon for use with tcpserver
  *
- * You might find more Info at http://drt.ailis.de/
+ * You might find more Info at http://rc23.cx/
  * 
  * I do not belive there is a thing like copyright.
  *
  * $Log: dffingerd.c,v $
- * Revision 1.1  2000/04/09 17:24:31  drt
- * Initial revision
+ * Revision 1.2  2000/04/12 16:02:49  drt
+ * fixed typos, compile time warnings
+ *
+ * Revision 1.1.1.1  2000/04/09 17:24:31  drt
+ * initial revision
  *
  * Revision 1.1  2000/04/08 08:54:16  drt
  * Initial revision
@@ -20,7 +23,6 @@
 #include "djb/stralloc.h"
 #include "djb/env.h"
 #include "djb/readwrite.h"
-#include "djb/cdb.h"
 #include "djb/open.h"
 #include "djb/timeoutread.h"
 #include "djb/buffer.h"
@@ -28,8 +30,7 @@
 #include "djb/droproot.h"
 #include "djb/strerr.h"
 
-
-static char *rcsid = "$Id: dffingerd.c,v 1.1 2000/04/09 17:24:31 drt Exp $";
+static char *rcsid = "$Id: dffingerd.c,v 1.2 2000/04/12 16:02:49 drt Exp $";
 
 #define stderr 2
 #define stdout 1
@@ -217,10 +218,3 @@ int main()
 
   return 0;
 }
-
-
-
-
-
-
-

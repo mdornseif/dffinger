@@ -1,14 +1,17 @@
 /* dffingerd-data by drt@ailis.de
  *
- * creates a data.cdb for dffingerd by gathering informations from data/*
+ * creates a data.cdb for dffingerd by gathering informations from data
  *
- * You might find more Info at http://drt.ailis.de/
+ * You might find more Info at http://rc23.cx/
  * 
  * I do not belive there is a thing like copyright.
  *
  * $Log: dffingerd-data.c,v $
- * Revision 1.1  2000/04/09 17:24:29  drt
- * Initial revision
+ * Revision 1.2  2000/04/12 16:02:49  drt
+ * fixed typos, compile time warnings
+ *
+ * Revision 1.1.1.1  2000/04/09 17:24:29  drt
+ * initial revision
  *
  * Revision 1.1  2000/04/08 08:54:05  drt
  * Initial revision
@@ -22,11 +25,9 @@
 #include "djb/stralloc.h"
 #include "djb/env.h"
 #include "djb/readwrite.h"
-#include "djb/cdb.h"
 #include "djb/open.h"
 #include "djb/buffer.h"
 #include "djb/str.h"
-#include "djb/droproot.h"
 #include "djb/exit.h"
 #include "djb/readwrite.h"
 #include "djb/buffer.h"
@@ -36,7 +37,7 @@
 #include "djb/direntry.h"
 #include "djb/error.h"
 
-static int rcsid = "$Id: dffingerd-data.c,v 1.1 2000/04/09 17:24:29 drt Exp $";
+static char *rcsid = "$Id: dffingerd-data.c,v 1.2 2000/04/12 16:02:49 drt Exp $";
 
 #define stderr 2
 #define stdout 1

@@ -2,13 +2,16 @@
  *
  * create directory structure for using dffingerd with svscan
  *
- * You might find more Info at http://drt.ailis.de/
+ * You might find more Info at http://rc23.cx/
  * 
  * I do not belive there is a thing like copyright.
  *
  * $Log: dffingerd-conf.c,v $
- * Revision 1.1  2000/04/09 17:24:29  drt
- * Initial revision
+ * Revision 1.2  2000/04/12 16:02:49  drt
+ * fixed typos, compile time warnings
+ *
+ * Revision 1.1.1.1  2000/04/09 17:24:29  drt
+ * initial revision
  *
  * Revision 1.1  2000/04/08 08:53:57  drt
  * Initial revision
@@ -21,7 +24,7 @@
 #include "djb/auto_home.h"
 #include "djb/generic-conf.h"
 
-static char *rcsid="$Id: dffingerd-conf.c,v 1.1 2000/04/09 17:24:29 drt Exp $";
+static char *rcsid="$Id: dffingerd-conf.c,v 1.2 2000/04/12 16:02:49 drt Exp $";
 
 #define FATAL "dffingerd-conf: fatal: "
 
