@@ -1,0 +1,67 @@
+.TH dffingerd-conf 8
+.SH NAME
+dffingerd-conf \- set up dffingerd for use with supervise/svscan
+.SH SYNOPSIS
+.B dffingerd-conf
+.I acct logacct D ip
+.SH DESCRIPTION
+.B dffingerd-conf
+creates a service directory 
+.I D 
+that runs 
+.BR dffingerd (8) 
+under 
+.BR tcpserver (8).
+The name 
+.I D 
+must start with a slash and must not contain any special characters. 
+.P
+You can run the service under 
+.BR svscan(8)
+by creating a symbolic link in the 
+.I svscan 
+directory.
+.P
+The service will start within five seconds, and will be restarted 
+upon reboot. You can use svc to control the service. 
+.P
+.B dffingerd-conf
+arranges for 
+.BR tcpserver (8)
+to listen for TCP connections on port 79 of 
+.I ip. 
+.P
+.B dffingerd-conf
+arranges for 
+.BR dffingerd (8) 
+to chroot to 
+.IR D /root 
+and to run under the uid and gid of 
+.IR acct .
+.B dffingerd-conf
+creates a Makefile in 
+.IR D /root 
+to run dffingerd-data creating a new data.cdb.
+.P
+.B dffingerd-conf
+creates an automatically rotated log directory in 
+.IR D/log/main. 
+The logs are owned by 
+.IR logacct . 
+The corresponding 
+.BR multilog (8) 
+processes run under the uid and gid of 
+.IR logacct . 
+The name
+.I logacct 
+must not contain any special characters. 
+.SH SEE ALSO
+dffingerd(8),
+tcpserver(8),
+supervise(8),
+svc(8),
+svscan(8),
+multilog(8),
+tai64nlocal(8),
+envuidgid(8),
+

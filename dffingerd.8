@@ -1,0 +1,52 @@
+.TH dffingerd 8
+.SH NAME
+dffingerd \- a finger daemon running chrooted
+.SH SYNOPSIS
+.B dffingerd
+.SH DESCRIPTION
+.B dffingerd 
+is a finger daemon designed to run from 
+.BR tcpserver (8).
+ You can find out more
+about tcpserver at 
+.I http://cr.yp.to/ucspi-tcp/tcpserver.html
+.P
+.B dffingerd  
+runs chrooted in the directory specified by the $ROOT environment 
+variable, under the uid and gid specified by the $UID and $GID 
+environment variables. 
+.P
+It reads an username from stdin using a 60 second timeout. It strips off
+`/W' and spaces from the beginning and changes all meta characters to
+`_'. 
+
+&;`"|*?~<>^()[]{}$'\\n\\r\\\ and space are considered meta characters.
+
+.B dffingerd 
+looks up the username in
+.B data.cdb
+created by
+.BR dffingerd-data (8)
+If it cant find the username it will try to look for the username
+.IR default .
+It sends the information found there to stdout using a 120 second timeout. 
+.B dffingerd 
+then logs to stderr a line containing
+.IP
+remotehostname [remoteip:port] identreply query
+.P
+.I identreply 
+is `-' if there was no ident reply.
+.P
+On errors 
+.B dffingerd 
+prints out an error message to stderr and exits with a status of 111.
+.P
+.B dffingerd 
+complies mostly to 
+.I RfC 1288
+- it doesn't support indirect querys and listing of users.
+.SH SEE ALSO
+tcpserver(8),
+dffingerd-data(8),
+dffingerd-conf(8),

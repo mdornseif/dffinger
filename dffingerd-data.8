@@ -1,0 +1,24 @@
+.TH dffingerd-data 8
+.SH NAME
+dffingerd-data \- build cdb for dffingerd
+.SH SYNOPSIS
+.B dffingerd-data
+.SH DESCRIPTION
+.B dffingerd-data
+changes to the directory 
+.I data
+and creates for each file found in this directory an 
+user account in data.cdb. The information in the file will 
+be used as finger reply when fingering 
+.IR filename @host.
+.P
+.B dffingerd-data
+updates data.cdb atomically by creating data.cdb.tmp and 
+moving it to data.cdb when ready, so you can use it safely while 
+.BR dffingerd (8)
+is running. If anything goes wrong with the creation 
+of data.cdb,
+.B dffingerd-data
+stops and leaves the old data.cdb in place. 
+.SH SEE ALSO
+dffingerd(8),
