@@ -1,4 +1,4 @@
-/* $Id: dffingerd.c,v 1.4 2000/04/27 16:42:32 drt Exp $
+/* $Id: dffingerd.c,v 1.5 2000/04/28 19:38:02 drt Exp $
  *  --drt@ailis.de
  *
  * a finger daemon for use with tcpserver
@@ -8,6 +8,14 @@
  * I do not belive there is a thing like copyright.
  *
  * $Log: dffingerd.c,v $
+ * Revision 1.5  2000/04/28 19:38:02  drt
+ * Fixes from fefes auditing:
+ * * first logging, then talking
+ * * don't allow "/W" just "/W "
+ * * removed unnecessary "qptr2 = clean_query;"
+ * * comma style
+ * Thanks Fefe!
+ *
  * Revision 1.4  2000/04/27 16:42:32  drt
  * dffingerd was logging query, not clean_query.
  * Cosmetic changes.
@@ -20,10 +28,6 @@
  *
  * Revision 1.1.1.1  2000/04/09 17:24:31  drt
  * initial revision
- *
- * Revision 1.1  2000/04/08 08:54:16  drt
- * Initial revision
- *
  */
 
 #include <unistd.h>              /* for close */
@@ -40,7 +44,7 @@
 #include "djb/timeoutread.h"
 #include "djb/timeoutwrite.h"
 
-static char rcsid[] = "$Id: dffingerd.c,v 1.4 2000/04/27 16:42:32 drt Exp $";
+static char rcsid[] = "$Id: dffingerd.c,v 1.5 2000/04/28 19:38:02 drt Exp $";
 
 #define stderr 2
 #define stdout 1
@@ -116,7 +120,41 @@ int main()
   query_len = timeoutread(60, stdin, query, sizeof(query) - 1);
   query[query_len] = '\0';
      
-  /* If there was any data we can go on */
+  /* Handle RfC 1288 stuff */
+  qptr=query;
+  if (*qptr==' ') qptr++;
+  if (*qptr=='/' && (*(qptr+1)=='W' || *(qptr+1)=='w') && *(qptr+2)) == ' ' qptr+=3;
+  
+  /* clean up query string a bit by removing chars witch could 
+     clobber logging or so and replace them with _ -> extra Paranoia */
+  for(qptr2 = clean_query; *qptr; qptr++)
+    {
+      if(is_meta (*qptr)) 
+	{
+	  *qptr2++ = '_';
+	}
+      else 
+	{
+	  *qptr2++ = *qptr;
+	}
+    }
+  *qptr2 = '\0';
+  
+  /* Do logging */
+  buffer_puts(buffer_2, remotehost);
+  buffer_puts(buffer_2, " [");
+  buffer_puts(buffer_2, remoteip);  
+  buffer_puts(buffer_2, ":");
+  buffer_puts(buffer_2, remoteport);
+  buffer_puts(buffer_2, "] ");
+  buffer_puts(buffer_2, remoteinfo);
+  buffer_puts(buffer_2, " ");
+  buffer_puts(buffer_2, clean_query);
+  buffer_puts(buffer_2, "\n");
+  buffer_flush(buffer_2);
+
+
+  /* If there was any data we will go on */
   if (query_len > 0)
     {
       /* Open & init our cdb */
@@ -136,32 +174,10 @@ int main()
 	      query[len] = '\0';
 	      break;
 	    }
-	}    
-      
-      /* Handle RfC 1288 stuff */
-      qptr=query;
-      if (*qptr==' ') qptr++;
-      if (*qptr=='/' && (*(qptr+1)=='W' || *(qptr+1)=='w')) qptr+=2;
-      if (*qptr==' ') qptr++;
-      
-      /* clean up query string a bit by removing chars witch could 
-	 clobber logging or so and replace them with _ */
-      qptr2 = clean_query;
-      for(qptr2 = clean_query; *qptr; qptr++)
-	{
-	  if(is_meta (*qptr)) 
-	    {
-	      *qptr2++ = '_';
-	    }
-     	  else 
-	    {
-	      *qptr2++ = *qptr;
-	    }
-	}
-      *qptr2 = '\0';
-      
+	}          
+  
       /* Search query for "user" on the database */
-      r = cdb_find(&c,clean_query,str_len(clean_query)); 
+      r = cdb_find(&c, clean_query, str_len(clean_query)); 
       if (r == 1)
 	{
 	  /* read data */
@@ -194,7 +210,7 @@ int main()
 	    }
 	  else 
 	    {
-	      /* no data for DEFAULTUSER eighter, so we don't have any data for the client */
+	      /* no data for DEFAULTUSER either, so we don't have any data for the client */
 	      stralloc_copys(&answer, NOPE);
 	    }
 	}      
@@ -204,7 +220,7 @@ int main()
       r = timeoutwrite(120, stdout, answer.s, answer.len);
       if (r <= 0)   
 	{
-	  strerr_die2sys(111,FATAL,"unable to write to network: ");
+	  strerr_die2sys(111, FATAL, "unable to write to network: ");
 	}
       
       /* free database */
@@ -216,18 +232,5 @@ int main()
       *clean_query = '\0';
     }
   
-  /* Do logging */
-  buffer_puts(buffer_2, remotehost);
-  buffer_puts(buffer_2, " [");
-  buffer_puts(buffer_2, remoteip);  
-  buffer_puts(buffer_2, ":");
-  buffer_puts(buffer_2, remoteport);
-  buffer_puts(buffer_2, "] ");
-  buffer_puts(buffer_2, remoteinfo);
-  buffer_puts(buffer_2, " ");
-  buffer_puts(buffer_2, clean_query);
-  buffer_puts(buffer_2, "\n");
-  buffer_flush(buffer_2);
-
   return 0;
 }
