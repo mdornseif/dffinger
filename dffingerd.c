@@ -1,4 +1,5 @@
-/* dffingerd by drt@ailis.de
+/* $Id: dffingerd.c,v 1.3 2000/04/26 09:36:34 drt Exp $
+ *  --drt@ailis.de
  *
  * a finger daemon for use with tcpserver
  *
@@ -7,6 +8,9 @@
  * I do not belive there is a thing like copyright.
  *
  * $Log: dffingerd.c,v $
+ * Revision 1.3  2000/04/26 09:36:34  drt
+ * use timeoutwrite
+ *
  * Revision 1.2  2000/04/12 16:02:49  drt
  * fixed typos, compile time warnings
  *
@@ -19,18 +23,19 @@
  */
 
 #include <unistd.h>              /* for close */
-#include "djb/cdb.h"
-#include "djb/stralloc.h"
-#include "djb/env.h"
-#include "djb/readwrite.h"
-#include "djb/open.h"
-#include "djb/timeoutread.h"
 #include "djb/buffer.h"
-#include "djb/str.h"
+#include "djb/cdb.h"
 #include "djb/droproot.h"
+#include "djb/env.h"
+#include "djb/open.h"
+#include "djb/readwrite.h"
+#include "djb/str.h"
+#include "djb/stralloc.h"
 #include "djb/strerr.h"
+#include "djb/timeoutread.h"
+#include "djb/timeoutwrite.h"
 
-static char *rcsid = "$Id: dffingerd.c,v 1.2 2000/04/12 16:02:49 drt Exp $";
+static char rcsid[] = "$Id: dffingerd.c,v 1.3 2000/04/26 09:36:34 drt Exp $";
 
 #define stderr 2
 #define stdout 1
@@ -190,9 +195,13 @@ int main()
 	      stralloc_copys(&answer, "nope\n");
 	    }
 	}      
-      stralloc_0(&answer);  
-      buffer_puts(buffer_1, answer.s);
-      buffer_flush(buffer_1);
+
+      /* write to the network with 120s timeout*/
+      r = timeoutwrite(120, stdout, answer.s, answer.len);
+      if (r <= 0)   
+	{
+	  strerr_die2sys(111,FATAL,"unable to write to network: ");
+	}
       
       /* free database */
       cdb_free(&c);
