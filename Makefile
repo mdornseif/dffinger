@@ -1,3 +1,5 @@
+# $Id: Makefile,v 1.3 2000/04/26 09:37:20 drt Exp $
+
 CFLAGS = -g -Wall
 
 DOWNLOADER = "wget"
@@ -5,13 +7,13 @@ DOWNLOADER = "wget"
 all: djblib dffingerd dffingerd-data dffingerd-conf
 
 dffingerd: dffingerd.o
-	$(CC) $(CFLAGS) -o dffingerd dffingerd.o djb.a $(LDFLAGS)
+	$(CC) $(CFLAGS) -o dffingerd dffingerd.o djb.a
 
 dffingerd-data: dffingerd-data.o
-	$(CC) $(CFLAGS) -o dffingerd-data dffingerd-data.o djb.a $(LDFLAGS)
+	$(CC) $(CFLAGS) -o dffingerd-data dffingerd-data.o djb.a
 
 dffingerd-conf: dffingerd-conf.o
-	$(CC) $(CFLAGS) -o dffingerd-conf dffingerd-conf.o djb.a $(LDFLAGS)
+	$(CC) $(CFLAGS) -o dffingerd-conf dffingerd-conf.o djb.a
 
 djblib: 
 	if [ ! -d djb ]; then \

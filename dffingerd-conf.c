@@ -1,4 +1,5 @@
-/* dffingerd by drt@ailis.de
+/* $Id: dffingerd-conf.c,v 1.3 2000/04/26 09:37:20 drt Exp $
+ *  --drt@ailis.de
  *
  * create directory structure for using dffingerd with svscan
  *
@@ -7,6 +8,9 @@
  * I do not belive there is a thing like copyright.
  *
  * $Log: dffingerd-conf.c,v $
+ * Revision 1.3  2000/04/26 09:37:20  drt
+ * cleanups
+ *
  * Revision 1.2  2000/04/12 16:02:49  drt
  * fixed typos, compile time warnings
  *
@@ -24,7 +28,7 @@
 #include "djb/auto_home.h"
 #include "djb/generic-conf.h"
 
-static char *rcsid="$Id: dffingerd-conf.c,v 1.2 2000/04/12 16:02:49 drt Exp $";
+static char rcsid[]="$Id: dffingerd-conf.c,v 1.3 2000/04/26 09:37:20 drt Exp $";
 
 #define FATAL "dffingerd-conf: fatal: "
 
@@ -64,7 +68,7 @@ int main(int argc, char **argv)
   outs("IP="); outs(myip); outs("; export IP\n");
   outs("exec envuidgid "); outs(user);
   outs(" \\\nsoftlimit -d250000");
-  outs(" \\\ntcpserver $IP finger");
+  outs(" \\\ntcpserver -Odhpr -c 10 $IP finger");
   outs(" "); outs(auto_home); outs("/bin/dffingerd");
   outs("\n");
   finish();

@@ -1,4 +1,5 @@
-/* dffingerd-data by drt@ailis.de
+/* $Id: dffingerd-data.c,v 1.3 2000/04/26 09:37:20 drt Exp $
+ *  --drt@ailis.de
  *
  * creates a data.cdb for dffingerd by gathering informations from data
  *
@@ -7,6 +8,9 @@
  * I do not belive there is a thing like copyright.
  *
  * $Log: dffingerd-data.c,v $
+ * Revision 1.3  2000/04/26 09:37:20  drt
+ * cleanups
+ *
  * Revision 1.2  2000/04/12 16:02:49  drt
  * fixed typos, compile time warnings
  *
@@ -37,7 +41,7 @@
 #include "djb/direntry.h"
 #include "djb/error.h"
 
-static char *rcsid = "$Id: dffingerd-data.c,v 1.2 2000/04/12 16:02:49 drt Exp $";
+static char rcsid[] = "$Id: dffingerd-data.c,v 1.3 2000/04/26 09:37:20 drt Exp $";
 
 #define stderr 2
 #define stdout 1

@@ -1,9 +1,4 @@
-* add test programm
-* add tcpserver options
-* write manpages
-* add BLURB/INSTALL/THANKS
-* clean up Makefile
 * check the return values of all function calls
-* check if we should do timeouts while writing
-* clean up usage of Dans functions
-* add ipv6 support
+* write manpages
+* add test programm
+* add ipv6 support once tcpserver supports it
