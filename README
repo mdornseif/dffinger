@@ -17,6 +17,6 @@ feed its output to multilog.
 If you want to run dffingerd with inetd tcp-env from qmail might come 
 handy. See http://www.qmail.org/qmail-manual-html/man1/tcp-env.html
 
-You might find more information at http://rc23.cx/
+You might find more information at http://rc23.cx/dffingerd.html
 
 --drt@ailis.de
