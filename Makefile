@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.5 2000/04/28 19:34:38 drt Exp $
+# $Id: Makefile,v 1.6 2000/04/28 19:43:54 drt Exp $
 
 CFLAGS = -g -Wall
 
@@ -40,5 +40,5 @@ clean:
 
 distclean:
 	-rm -f core dffingerd dffingerd-data dffingerd-conf *~ *.o *.a
-	-rm -Rf djb dnscache*
+	-rm -Rf dnscache*
 
