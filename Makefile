@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.3 2000/04/26 09:37:20 drt Exp $
+# $Id: Makefile,v 1.4 2000/04/27 16:40:15 drt Exp $
 
 CFLAGS = -g -Wall
 
@@ -63,6 +63,9 @@ install:
 	install -m 755 -s dffingerd /usr/local/bin
 	install -m 755 -s dffingerd-conf /usr/local/bin
 	install -m 755 -s dffingerd-data /usr/local/bin
+	install -m 644 dffingerd.8 /usr/local/man/man8
+	install -m 644 dffingerd-data.8 /usr/local/man/man8
+	install -m 644 dffingerd-conf.8 /usr/local/man/man8
 
 clean:
 	rm -f dffingerd dffingerd-data dffingerd-conf
