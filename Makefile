@@ -1,5 +1,6 @@
-# Generated automatically from Makefile.in by configure.
 CFLAGS = -g -Wall
+
+DOWNLOADER = "wget"
 
 all: djblib dffingerd dffingerd-data dffingerd-conf
 
@@ -14,7 +15,7 @@ dffingerd-conf: dffingerd-conf.o
 
 djblib: 
 	if [ ! -d djb ]; then \
-		wget http://cr.yp.to/dnscache/dnscache-1.00.tar.gz; \
+		$(DOWNLOADER) http://cr.yp.to/dnscache/dnscache-1.00.tar.gz; \
 		tar xzvf dnscache-1.00.tar.gz; \
 		cd dnscache-1.00; \
 		make; \
