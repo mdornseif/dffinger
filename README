@@ -1,0 +1,95 @@
+Quick'd dirty:
+
+This is proof of concept code.
+
+You need tcpserver and daemontools
+
+To bulid:
+
+Get dnscache from http://cr.yp.to/, extract it, compile it.
+Copy all files form the dnscache directory to djb/
+# make
+create two users: finger and fingerl
+# /usr/local/bin/dffingerd-conf finger fingerl /etc/dffingerd 127.0.0.1
+# ln -s /etc/dffingerd /service/
+# cd /etc/dffingerd/root
+# echo "test user 1" > data/test1
+# echo "test user 2" > data/test2
+# make
+# finger test1@localhost
+# finger test2@localhost
+# finger unknown@localhost
+
+The real one:
+
+This is dffinger, it was long time ago a patch to Fefes Finger Daemon
+ffingerd.  Since ffingerd didn't met my level of paranoia, I decided
+to rewrite it using technices learnd from the tools of Dan Bernstein.
+I used Bernsteins Librarys because they semmed to be much better
+engineered than the standard libc. Since Dan hasn't settled his
+Library setup up to now and doesn't provide his Library for download,
+I had to rip it out of one of his tools. To compile you have to
+provide a configured copy of dnscache in the subdir "djb". The
+Makefile tries to do this for you but better do it yourself.
+
+ddfingerd is designed to run chroot()ed under a nonroot uid. It reads
+all its data from a cdb which will be created by dffingerd-conf.  It
+does it interfacing to the network via tcpserver/ucspi-tcp and is logs
+to stderr. dffingerd is designed to run supervised by daemontools and
+feed its output to multilog. 
+
+INSTALLING
+
+Get dnscache from http://cr.yp.to/, extract it, compile it.
+Copy all files form the dnscache directory to djb/
+
+Compile and install dffingerd:
+
+  	# make install
+
+This will create dffingerd, dffingerd-conf and dffingerd-data in
+/usr/local/bin.
+
+Now create two users one for running dffingerd and one for logging. I
+will use "finger" and "fingerl".
+
+Decide where to put dffingerds data. I will use "/etc/dffningerd". Then
+run dffigerd-conf:
+
+	# dffingerd-conf finger fingerl /etc/dffingerd 0.0.0.0
+
+You can replace 0.0.0.0 by the IP adress dffingerd should bind to.
+0.0.0.0 will bind dffingerd to all your IP adresses
+
+Go to "/etc/dffingerd/root" and create some test data. The data for
+dffingerd is in the subdirectory "data", every file in this
+subdirectory refers to the data returned for the username represented
+by the filename. So
+
+	# echo "Joe Cypherpunk" > data/joe
+	# echo "test user 1" > data/test1
+	# echo "test user 2" > data/test2
+	# cat "/etc/resolv.conf" > data/resolv
+
+will generate data for the users "joe", "test1", "test2" and "resolv"
+Now enter make to build the cdb. The cdb will be build atomically so
+there will be no disruption of service while rebuilding it. If there
+are some errors the original database stays untouched.
+
+Now you can start dffingerd by telling svscan about it:
+
+	# ln -s /etc/dffingerd /service/
+
+Now test it:
+
+	# finger joe@localhost
+	# finger test1@localhost
+	# finger test2@localhost
+	# finger unknown@localhost
+
+
+The username "default" is special. If dffingerd can't find a requested
+username it will try the user "default" instead.
+
+
+
