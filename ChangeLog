@@ -1,0 +1,9 @@
+2000-04-28  Doobee. R. Tzeck  <drt@ailis.de>
+
+	* This is version 0.2 beeing audited by fefe, if no Problems arise
+          this will get 1.0 in a few weeks. 
+
+	* Makefile: Changed Building to be more robust
+
+	* dffingerd-conf.c: First log, then do the rest
+
