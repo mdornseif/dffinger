@@ -1,4 +1,3 @@
-* check the return values of all function calls
-* write manpages
+* check the return values of ALL function calls
 * add test programm
 * add ipv6 support once tcpserver supports it

@@ -1,7 +1,7 @@
 This is dffinger, it was long time ago a patch to Fefes Finger Daemon
 ffingerd.  Since ffingerd didn't met my level of paranoia, I decided
 to rewrite it using technices learnd from the tools of Dan Bernstein.
-I used Bernsteins Librarys because they semmed to be much better
+I used Bernsteins Librarys because they seemed to be much better
 engineered than the standard libc. Since Dan hasn't settled his
 Library setup up to now and doesn't provide his Library for download,
 I had to rip it out of one of his tools. To compile you have to
@@ -13,6 +13,9 @@ all its data from a cdb which will be created by dffingerd-conf.  It
 does its interfacing to the network via tcpserver/ucspi-tcp and is logs
 to stderr. dffingerd is designed to run supervised by daemontools and
 feed its output to multilog. 
+
+If you want to run dffingerd with inetd tcp-env from qmail might come 
+handy. See http://www.qmail.org/qmail-manual-html/man1/tcp-env.html
 
 You might find more information at http://rc23.cx/
 

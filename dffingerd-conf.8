@@ -11,7 +11,7 @@ creates a service directory
 that runs 
 .BR dffingerd (8) 
 under 
-.BR tcpserver (8).
+.BR tcpserver (1).
 The name 
 .I D 
 must start with a slash and must not contain any special characters. 
@@ -27,7 +27,7 @@ upon reboot. You can use svc to control the service.
 .P
 .B dffingerd-conf
 arranges for 
-.BR tcpserver (8)
+.BR tcpserver (1)
 to listen for TCP connections on port 79 of 
 .I ip. 
 .P
@@ -57,7 +57,7 @@ The name
 must not contain any special characters. 
 .SH SEE ALSO
 dffingerd(8),
-tcpserver(8),
+tcpserver(1),
 supervise(8),
 svc(8),
 svscan(8),
