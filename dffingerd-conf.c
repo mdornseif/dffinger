@@ -1,4 +1,4 @@
-/* $Id: dffingerd-conf.c,v 1.3 2000/04/26 09:37:20 drt Exp $
+/* $Id: dffingerd-conf.c,v 1.4 2000/05/04 07:54:08 drt Exp $
  *  --drt@ailis.de
  *
  * create directory structure for using dffingerd with svscan
@@ -8,6 +8,15 @@
  * I do not belive there is a thing like copyright.
  *
  * $Log: dffingerd-conf.c,v $
+ * Revision 1.4  2000/05/04 07:54:08  drt
+ * * dffingerd.c: Build fixes, fix at handling \W
+ *
+ * * dffingerd-data.c: Build fixes
+ *
+ * * dffingerd-conf.c: Build fixes
+ *
+ * * Makefile: Build fixes
+ *
  * Revision 1.3  2000/04/26 09:37:20  drt
  * cleanups
  *
@@ -23,12 +32,12 @@
  */
 
 #include <pwd.h>
-#include "djb/strerr.h"
-#include "djb/exit.h"
-#include "djb/auto_home.h"
-#include "djb/generic-conf.h"
+#include "strerr.h"
+#include "exit.h"
+#include "auto_home.h"
+#include "generic-conf.h"
 
-static char rcsid[]="$Id: dffingerd-conf.c,v 1.3 2000/04/26 09:37:20 drt Exp $";
+static char rcsid[]="$Id: dffingerd-conf.c,v 1.4 2000/05/04 07:54:08 drt Exp $";
 
 #define FATAL "dffingerd-conf: fatal: "
 

@@ -1,6 +1,6 @@
-# $Id: Makefile,v 1.6 2000/04/28 19:43:54 drt Exp $
+# $Id: Makefile,v 1.7 2000/05/04 07:54:08 drt Exp $
 
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -Idnscache
 
 DOWNLOADER = "wget"
 

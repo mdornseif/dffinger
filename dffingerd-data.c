@@ -1,4 +1,4 @@
-/* $Id: dffingerd-data.c,v 1.3 2000/04/26 09:37:20 drt Exp $
+/* $Id: dffingerd-data.c,v 1.4 2000/05/04 07:54:08 drt Exp $
  *  --drt@ailis.de
  *
  * creates a data.cdb for dffingerd by gathering informations from data
@@ -8,6 +8,15 @@
  * I do not belive there is a thing like copyright.
  *
  * $Log: dffingerd-data.c,v $
+ * Revision 1.4  2000/05/04 07:54:08  drt
+ * * dffingerd.c: Build fixes, fix at handling \W
+ *
+ * * dffingerd-data.c: Build fixes
+ *
+ * * dffingerd-conf.c: Build fixes
+ *
+ * * Makefile: Build fixes
+ *
  * Revision 1.3  2000/04/26 09:37:20  drt
  * cleanups
  *
@@ -23,25 +32,26 @@
  */
 
 #include <unistd.h>
-#include <sys/stat.h>
-#include <stdio.h>
-#include "djb/cdb.h"
-#include "djb/stralloc.h"
-#include "djb/env.h"
-#include "djb/readwrite.h"
-#include "djb/open.h"
-#include "djb/buffer.h"
-#include "djb/str.h"
-#include "djb/exit.h"
-#include "djb/readwrite.h"
-#include "djb/buffer.h"
-#include "djb/strerr.h"
-#include "djb/getln.h"
-#include "djb/cdb_make.h"
-#include "djb/direntry.h"
-#include "djb/error.h"
 
-static char rcsid[] = "$Id: dffingerd-data.c,v 1.3 2000/04/26 09:37:20 drt Exp $";
+#include "buffer.h"
+#include "buffer.h"
+#include "cdb.h"
+#include "cdb_make.h"
+#include "direntry.h"
+#include "env.h"
+#include "error.h"
+#include "exit.h"
+#include "getln.h"
+#include "open.h"
+#include "readwrite.h"
+#include "readwrite.h"
+#include "str.h"
+#include "stralloc.h"
+#include "strerr.h"
+#include <stdio.h>
+#include <sys/stat.h>
+
+static char rcsid[] = "$Id: dffingerd-data.c,v 1.4 2000/05/04 07:54:08 drt Exp $";
 
 #define stderr 2
 #define stdout 1

@@ -1,4 +1,4 @@
-/* $Id: dffingerd.c,v 1.5 2000/04/28 19:38:02 drt Exp $
+/* $Id: dffingerd.c,v 1.6 2000/05/04 07:54:08 drt Exp $
  *  --drt@ailis.de
  *
  * a finger daemon for use with tcpserver
@@ -8,6 +8,15 @@
  * I do not belive there is a thing like copyright.
  *
  * $Log: dffingerd.c,v $
+ * Revision 1.6  2000/05/04 07:54:08  drt
+ * * dffingerd.c: Build fixes, fix at handling \W
+ *
+ * * dffingerd-data.c: Build fixes
+ *
+ * * dffingerd-conf.c: Build fixes
+ *
+ * * Makefile: Build fixes
+ *
  * Revision 1.5  2000/04/28 19:38:02  drt
  * Fixes from fefes auditing:
  * * first logging, then talking
@@ -32,19 +41,19 @@
 
 #include <unistd.h>              /* for close */
 
-#include "djb/buffer.h"
-#include "djb/cdb.h"
-#include "djb/droproot.h"
-#include "djb/env.h"
-#include "djb/open.h"
-#include "djb/readwrite.h"
-#include "djb/str.h"
-#include "djb/stralloc.h"
-#include "djb/strerr.h"
-#include "djb/timeoutread.h"
-#include "djb/timeoutwrite.h"
+#include "buffer.h"
+#include "cdb.h"
+#include "droproot.h"
+#include "env.h"
+#include "open.h"
+#include "readwrite.h"
+#include "str.h"
+#include "stralloc.h"
+#include "strerr.h"
+#include "timeoutread.h"
+#include "timeoutwrite.h"
 
-static char rcsid[] = "$Id: dffingerd.c,v 1.5 2000/04/28 19:38:02 drt Exp $";
+static char rcsid[] = "$Id: dffingerd.c,v 1.6 2000/05/04 07:54:08 drt Exp $";
 
 #define stderr 2
 #define stdout 1
@@ -123,7 +132,7 @@ int main()
   /* Handle RfC 1288 stuff */
   qptr=query;
   if (*qptr==' ') qptr++;
-  if (*qptr=='/' && (*(qptr+1)=='W' || *(qptr+1)=='w') && *(qptr+2)) == ' ' qptr+=3;
+  if (*qptr=='/' && (*(qptr+1)=='W' || *(qptr+1)=='w') && *(qptr+2) == ' ') qptr+=3;
   
   /* clean up query string a bit by removing chars witch could 
      clobber logging or so and replace them with _ -> extra Paranoia */
