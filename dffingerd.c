@@ -1,4 +1,4 @@
-/* $Id: dffingerd.c,v 1.3 2000/04/26 09:36:34 drt Exp $
+/* $Id: dffingerd.c,v 1.4 2000/04/27 16:42:32 drt Exp $
  *  --drt@ailis.de
  *
  * a finger daemon for use with tcpserver
@@ -8,6 +8,10 @@
  * I do not belive there is a thing like copyright.
  *
  * $Log: dffingerd.c,v $
+ * Revision 1.4  2000/04/27 16:42:32  drt
+ * dffingerd was logging query, not clean_query.
+ * Cosmetic changes.
+ *
  * Revision 1.3  2000/04/26 09:36:34  drt
  * use timeoutwrite
  *
@@ -23,6 +27,7 @@
  */
 
 #include <unistd.h>              /* for close */
+
 #include "djb/buffer.h"
 #include "djb/cdb.h"
 #include "djb/droproot.h"
@@ -35,13 +40,14 @@
 #include "djb/timeoutread.h"
 #include "djb/timeoutwrite.h"
 
-static char rcsid[] = "$Id: dffingerd.c,v 1.3 2000/04/26 09:36:34 drt Exp $";
+static char rcsid[] = "$Id: dffingerd.c,v 1.4 2000/04/27 16:42:32 drt Exp $";
 
 #define stderr 2
 #define stdout 1
 #define stdin 0
-#define DEFAULTUSER "default"
-#define FATAL "ddfingerd: fatal: "
+#define DEFAULTUSER  "default"
+#define NOPE         "nope\n"
+#define FATAL        "ddfingerd: fatal: "
 
 /* is_meta() returns 1 if c is a meta character, otherwise 0 */
 int is_meta(unsigned char c)
@@ -77,15 +83,13 @@ int is_meta(unsigned char c)
 int main()
 {
   unsigned char *remotehost, *remoteinfo, *remoteip, *remoteport;
-  unsigned char query[256] = {0};
-  unsigned char clean_query[256] = {0};
-  unsigned char *qptr = NULL;
-  unsigned char *qptr2 = NULL;
+  unsigned char query[256];
+  unsigned char clean_query[256];
+  unsigned char *qptr, *qptr2;
   int len, query_len;
-  int fd = 0;
-  int r = 0;
+  int fd, r = 0;
+  struct cdb c;
   stralloc answer = {0};
-  static struct cdb c;
   
   /* chroot() to $ROOT and switch to $UID:$GID */
   droproot("dffingerd: ");
@@ -115,7 +119,6 @@ int main()
   /* If there was any data we can go on */
   if (query_len > 0)
     {
-
       /* Open & init our cdb */
       fd = open_read("data.cdb");
       if (fd == -1)
@@ -123,7 +126,7 @@ int main()
 	  /* If opening failed quit */
 	  strerr_die2sys(111, FATAL, "can't open data.cdb");
 	}      
-      cdb_init(&c,fd);
+      cdb_init(&c, fd);
 
       /* \0-terminate query at the first \r or \n */
       for (len = 0; query[len]; len++) 
@@ -192,11 +195,12 @@ int main()
 	  else 
 	    {
 	      /* no data for DEFAULTUSER eighter, so we don't have any data for the client */
-	      stralloc_copys(&answer, "nope\n");
+	      stralloc_copys(&answer, NOPE);
 	    }
 	}      
 
-      /* write to the network with 120s timeout*/
+      /* write to the network with 120s timeout */
+      /* I guess the timeout isn't needed on an usual Unix */
       r = timeoutwrite(120, stdout, answer.s, answer.len);
       if (r <= 0)   
 	{
@@ -209,7 +213,7 @@ int main()
     }
   else
     {
-      *query = '\0';
+      *clean_query = '\0';
     }
   
   /* Do logging */
