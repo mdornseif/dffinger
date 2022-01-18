@@ -1,3 +1,5 @@
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 This is dffinger, it was long time ago a patch to Fefes Finger Daemon
 ffingerd.  Since ffingerd didn't met my level of paranoia, I decided
 to rewrite it using technices learnd from the tools of Dan Bernstein.
